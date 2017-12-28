@@ -3,20 +3,20 @@
 
 class KMP{
 public:
-bool match(char *T, char *P,int n, int m){
-    buildNext(P, m);
-    int i = 0, j = 0;
-    
-    while(j < m && i < n){
-        if(j < 0 || T[i] == P[j]) { //若匹配
-            i++; j++; //则携手并进
+    bool match(char *T, char *P,int n, int m){
+        buildNext(P, m);
+        int i = 0, j = 0;
+        
+        while(j < m && i < n){
+            if(j < 0 || T[i] == P[j]) { //若匹配
+                i++; j++; //则携手并进
+            }
+            else{ // P右移, T不回退
+                j = next[j];
+            }
         }
-        else{ // P右移, T不回退
-            j = next[j];
-        }
+        return (i - j) <= (n - m);        
     }
-    return (i - j) <= (n - m);        
-}
 
 private:
     int next[MAX_N];
