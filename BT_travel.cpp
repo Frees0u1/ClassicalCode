@@ -119,4 +119,6 @@ int main(){
     BT_InOrder(&n0);
     cout << endl;
 
+    BT_PostOrder(&n0);
+    cout << endl;
 }
