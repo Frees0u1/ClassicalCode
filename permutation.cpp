@@ -11,19 +11,20 @@ class Solution{
 public:
 	vector<string> all_arrange(string s){
 		vector<string> result;
-		helper(result, s, 0, s.size());
+		helper(result, s, 0);
 		return result;
 	}
-	void helper(vector<string> &result, string &s, int i, int j){
-		//将字符串S[i, j)部分进行全排序, 并将结果保存在result 中
-		if(i == j) return;
-		if(i == j - 1){
+	void helper(vector<string> &result, string &s, int idx){
+		//将字符串S[idx, n)部分进行全排序, 并将结果保存在result 中
+		int n = s.length();
+		if(idx == n) return;
+		if(idx == n - 1){
 			result.push_back(s);
 			return;
 		}
-		for(int k = i; k < j; k++){
-			swap(s[k], s[i]);
-			helper(result, s, i + 1, j);
+		for(int k = idx; k < n; k++){ //遍历范围内的所有值作为首字符的排列方式
+			swap(s[k], s[idx]);
+			helper(result, s, idx + 1);
 		}
 		return;
 	}

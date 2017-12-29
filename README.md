@@ -9,4 +9,4 @@
 6. heapSort      堆排序(内含Floyd建堆算法)
 7. mergeSort     归并排序
 8. BT_travel     二叉树的三种遍历(前序/中序/后序)
-9. allarrange    全排列
+9. permutation    全排列(有无重复元素)
