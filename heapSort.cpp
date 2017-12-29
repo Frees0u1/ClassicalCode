@@ -10,16 +10,10 @@ void percolateDown(vector<int>& nums, int n, int i){ //将nums[i]进行下滤 �
     while(true){
         int lc = 2*i+1, rc = 2*i +2;
         j = i; //j为下一个该下滤的节点
-        if(lc < n && rc < n){
-            int tmp = (nums[lc] > nums[rc]) ? lc : rc;
-            if(nums[tmp] > nums[i]) j = tmp;
-        }
-        else if(rc == n){ //仅左节点合法
-            if(nums[lc] > nums[i]) j = lc;
-        } //else ; 已经是叶节点
-
+        //以下两条if语句执行完毕后,j指向i/lc/rc三者中值最大者
+        if(lc < n && nums[lc] > nums[j]) j = lc;
+        if(rc < n && nums[rc] > nums[j]) j = rc;
         if(j == i) break; //无需下滤
-
         swap(nums[i], nums[j]);
         i = j;
     }
