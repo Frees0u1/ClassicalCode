@@ -4,12 +4,13 @@
 
 #include <iostream>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 //不含重复元素的递归实现
-class Solution{
+class Solution1{
 public:
-	vector<string> all_arrange(string s){
+	vector<string> permutation(string s){
 		vector<string> result;
 		helper(result, s, 0);
 		return result;
@@ -25,10 +26,35 @@ public:
 		for(int k = idx; k < n; k++){ //遍历范围内的所有值作为首字符的排列方式
 			swap(s[k], s[idx]);
 			helper(result, s, idx + 1);
+			swap(s[k], s[idx]);
 		}
 		return;
 	}
 
+};
+
+
+//含重复元素的递归实现, 仅仅是排序后多加一行判定,但要注意此时不传引用,要传值,因此不用回溯
+class Solution2 {
+public:
+    void recursion(string s, int i, vector<string > &res) {
+		int j = s.size();
+        if (i == j-1) {
+            res.push_back(s);
+            return;
+        }
+        for (int k = i; k < j; k++) {
+            if (i != k && s[i] == s[k]) continue;
+            swap(s[i], s[k]);
+            recursion(s, i+1, res);
+        }
+    }
+    vector<string > permuteUnique(string &s) {
+        sort(s.begin(), s.end());
+        vector<string >res;
+        recursion(s, 0, res);
+        return res;
+    }
 };
 
 
@@ -40,9 +66,9 @@ int main(int argc, char **argv){
 	string s(argv[1]);
 
 	vector<string> svec;
-	Solution sol;
+	Solution2 sol;
 
-	svec = sol.all_arrange(s);
+	svec = sol.permuteUnique(s);
 
 	for(auto sx : svec){
 		cout << sx << endl;
