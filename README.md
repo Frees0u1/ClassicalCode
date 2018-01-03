@@ -7,7 +7,8 @@
 * 103_heapSort 堆排序,内含Floyd建堆算法 
 
 ## 2.二叉树
-* 201\_BT_travel 二叉树的三种遍历(前序/中序/后序)
+* 201_BT.travel 二叉树的三种遍历(前序/中序/后序)
+* 202_BT.levelTravel 二叉树的层次遍历
 
 ## 3.搜索
 * 301_BinarySearch  经典二分算法
