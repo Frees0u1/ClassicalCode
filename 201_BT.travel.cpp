@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <stack>
+#include <vector>
 using namespace std;
 
 struct TreeNode{
@@ -92,6 +93,76 @@ void findFirst(stack<TreeNode*> &S) {
     }
     S.pop(); //删掉栈顶的空指针
 }
+
+// 注意注意 --- 前方高能!!!
+// 下面是二叉树前中后序遍历的奇技淫巧!
+// 非常有效,而且对前中后序遍历均有效,
+// 即模拟递归栈的思路, 下面对三种中最难的后序遍历序列给出原生版本和精简版本
+
+// 原生版本
+class Solution1 {
+    typedef struct Command{
+        string cmd_; //go or print
+        TreeNode* node_;
+        Command(string cmd, TreeNode* node) : cmd_(cmd), node_(node) {}
+    }Command;
+    
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> res;
+        if(root == nullptr) return res;        
+        stack<Command> stk;
+        stk.push(Command("print", root));
+        stk.push(Command("go", root->right));
+        stk.push(Command("go", root->left));
+        
+        while(!stk.empty()) {
+            Command command = stk.top(); stk.pop();
+            if(command.node_ == nullptr) continue;
+            else {
+                if(command.cmd_ == "print") res.push_back(command.node_->val);
+                else { //go command
+                    stk.push(Command("print", command.node_));
+                    stk.push(Command("go", command.node_->right));
+                    stk.push(Command("go", command.node_->left));
+                }
+            }
+        }
+        return res;
+    }
+};
+
+// 精简版本 -- 将Command精简为pair,并多存一个bool位
+class Solution2 {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> res;
+        if(root == nullptr) return res;        
+        stack<pair<bool, TreeNode*> > stk; //pair的第一位bool值表示是否需要往下访问，1为需要，0为不需要
+        stk.push({0, root});
+        stk.push({1, root->right});
+        stk.push({1, root->left});
+        
+        while(!stk.empty()) {
+            pair<bool, TreeNode*> p = stk.top(); stk.pop();
+            TreeNode* cur = p.second;
+            if(cur == nullptr) continue;  // 递归版本里，这个就是递归基
+            else {
+                if(p.first) { //需要先访问子树
+                    stk.push({0, cur});
+                    stk.push({1, cur->right});
+                    stk.push({1, cur->left});
+                }
+                else
+                    res.push_back(cur->val);
+            }   
+        }
+        return res;  
+    }
+};
+
+
+
 
 
 /*
