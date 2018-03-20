@@ -112,20 +112,16 @@ public:
         vector<int> res;
         if(root == nullptr) return res;        
         stack<Command> stk;
-        stk.push(Command("print", root));
-        stk.push(Command("go", root->right));
-        stk.push(Command("go", root->left));
-        
+        stk.push(Command("go", root));
         while(!stk.empty()) {
             Command command = stk.top(); stk.pop();
-            if(command.node_ == nullptr) continue;
-            else {
-                if(command.cmd_ == "print") res.push_back(command.node_->val);
-                else { //go command
-                    stk.push(Command("print", command.node_));
+            if(command.cmd_ == "print") res.push_back(command.node_->val);
+            else { // cmd == go
+                stk.push(Command("print", command.node_));
+                if(command.node_->right) 
                     stk.push(Command("go", command.node_->right));
+                if(command.node_->left) 
                     stk.push(Command("go", command.node_->left));
-                }
             }
         }
         return res;
@@ -139,9 +135,7 @@ public:
         vector<int> res;
         if(root == nullptr) return res;        
         stack<pair<bool, TreeNode*> > stk; //pair的第一位bool值表示是否需要往下访问，1为需要，0为不需要
-        stk.push({0, root});
-        stk.push({1, root->right});
-        stk.push({1, root->left});
+        stk.push({1, root});
         
         while(!stk.empty()) {
             pair<bool, TreeNode*> p = stk.top(); stk.pop();
@@ -150,8 +144,8 @@ public:
             else {
                 if(p.first) { //需要先访问子树
                     stk.push({0, cur});
-                    stk.push({1, cur->right});
-                    stk.push({1, cur->left});
+                    if(cur->right) stk.push({1, cur->right});
+                    if(cur->left) stk.push({1, cur->left});
                 }
                 else
                     res.push_back(cur->val);
