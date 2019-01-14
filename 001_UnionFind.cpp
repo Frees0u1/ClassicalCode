@@ -19,7 +19,7 @@ public:
         if(mp[x] == x) {
             return x;
         }
-        int f = find(mp[x]);
+        T f = find(mp[x]);
         mp[x] = f;
 
         return f;
