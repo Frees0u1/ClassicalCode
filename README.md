@@ -1,6 +1,9 @@
 # ClassicalCode
 一些经典的代码片段
 
+## 0.Basic Algorithm Tools
+001_UnionFind 并查集(哈希表实现)
+
 ## 1.排序
 * 101_quickSort 快速排序,内含核心函数partition
 * 102_mergeSort 归并排序
@@ -20,7 +23,6 @@
 
 ## 5.设计模式
 * 501_Singleton
-
 
 ## 6.其他
 * 601_dayCount 计算任意两个日期之间相差的天数
